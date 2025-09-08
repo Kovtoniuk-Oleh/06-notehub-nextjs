@@ -3,7 +3,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchNoteById } from '@/lib/api';
 import Image from 'next/image'; // 👈 додаємо імпорт
-import css from './NoteDetails.module.css';
+// import css from './NoteDetails.module.css';
+import css from './details.module.css';
 
 interface Props {
   id: number;

@@ -5,7 +5,7 @@ import { fetchNotes } from '@/lib/api';
 import NoteList from '@/components/NoteList/NoteList';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import SearchBox from '@/components/SearchBox/SearchBox';
-import css from './Notes.module.css';
+import css from './notes.module.css';
 
 export default function NotesPage() {
   const [searchTerm, setSearchTerm] = useState('');
