@@ -1,16 +1,12 @@
 import { QueryClient, HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import NoteDetailsClient from './NoteDetails.client'; // ✅ правильний імпорт
+import NoteDetailsClient from './NoteDetails.client';
 import { fetchNoteById } from '@/lib/api';
 
-interface NotePageProps {
-  params: { id: string };
-}
-
-export default async function NotePage({ params }: NotePageProps) {
+export default async function NotePage({ params }: { params: { id: string } }) {
   const { id } = params;
   const queryClient = new QueryClient();
 
-  // Prefetch даних нотатки
+  // Prefetch нотатки на сервері
   await queryClient.prefetchQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
@@ -18,7 +14,7 @@ export default async function NotePage({ params }: NotePageProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NoteDetailsClient noteId={id} /> {/* ✅ передаємо id як пропс */}
+      <NoteDetailsClient noteId={id} />
     </HydrationBoundary>
   );
 }
