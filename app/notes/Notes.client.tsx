@@ -10,7 +10,7 @@ import NoteForm from '@/components/NoteForm/NoteForm';
 import Modal from '@/components/Modal/Modal';
 import Pagination from '@/components/Pagination/Pagination';
 import { Toaster } from 'react-hot-toast';
-import css from './Notes.module.css';
+import css from './notes.module.css';
 
 interface NotesClientProps {
   initialPage?: number;
