@@ -1,33 +1,36 @@
+'use client';
+
 import ReactPaginate from 'react-paginate';
 import css from './Pagination.module.css';
 
 interface PaginationProps {
-  currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
-  className?: string;
+  page: number;
+  setPage: (page: number) => void;
+  pageRangeDisplayed?: number; // скільки сторінок показувати у центрі
+  marginPagesDisplayed?: number; // скільки сторінок показувати з країв
 }
 
-const Pagination = ({ currentPage, totalPages, onPageChange, className }: PaginationProps) => {
+export default function Pagination({
+  totalPages,
+  page,
+  setPage,
+  pageRangeDisplayed = 5,
+  marginPagesDisplayed = 1,
+}: PaginationProps) {
   return (
-    <div className={className}>
-      <nav aria-label="Pagination">
-        <ReactPaginate
-          pageCount={totalPages}
-          forcePage={currentPage - 1}
-          onPageChange={(selectedItem) => onPageChange(selectedItem.selected + 1)}
-          containerClassName={css.pagination}
-          activeClassName={css.active}
-          disabledClassName={css.disabled}
-          previousLabel="<"
-          nextLabel=">"
-          breakLabel="..."
-          marginPagesDisplayed={1}
-          pageRangeDisplayed={2}
-        />
-      </nav>
-    </div>
+    <ReactPaginate
+      pageCount={totalPages}
+      pageRangeDisplayed={pageRangeDisplayed}
+      marginPagesDisplayed={marginPagesDisplayed}
+      onPageChange={({ selected }) => setPage(selected + 1)}
+      forcePage={page - 1}
+      containerClassName={css.pagination}
+      activeClassName={css.active}
+      previousLabel="←"
+      nextLabel="→"
+      breakLabel="..."
+      disabledClassName={css.disabled}
+    />
   );
-};
-
-export default Pagination;
+}

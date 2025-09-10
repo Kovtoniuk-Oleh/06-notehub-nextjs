@@ -1,32 +1,25 @@
-import './globals.css';
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
-import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import './globals.css';
 
-export const metadata = {
-  title: 'NoteHub — простір, де думки набувають форми',
-  description: 'Manage your notes efficiently',
-  icons: {
-    icon: [
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
-    apple: '/icon-192x192.png',
-    other: [{ rel: 'icon', url: '/icon-512x512.png', sizes: '512x512' }],
-  },
+const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
+const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: 'NoteHub Unique',
+  description: 'A unique note management app built with Next.js',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <head>
-        {/* fallback favicon for older browsers */}
-        <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
-      </head>
-      <body>
+      <body className={`root-layout ${geistSans.variable} ${geistMono.variable}`}>
         <TanStackProvider>
           <Header />
-          {children}
+          <main className="content-wrapper">{children}</main>
           <Footer />
         </TanStackProvider>
       </body>

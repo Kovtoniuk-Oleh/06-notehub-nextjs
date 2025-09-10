@@ -1,47 +1,45 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchNoteById } from '@/lib/api';
-import Image from 'next/image'; // 👈 додаємо імпорт
-// import css from './NoteDetails.module.css';
+import { Note } from '@/types/note';
 import css from './details.module.css';
 
-interface Props {
-  id: number;
-}
+const NoteDetailsClient = () => {
+  const { id } = useParams<{ id: string }>();
 
-export default function NoteDetailsClient({ id }: Props) {
   const {
     data: note,
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<Note, Error>({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
+    refetchOnMount: false,
   });
 
-  if (isLoading) return <p>Loading, please wait...</p>;
+  if (isLoading) return <p>Loading note, please wait...</p>;
   if (error || !note) return <p>Something went wrong.</p>;
 
   return (
     <div className={css.container}>
       <div className={css.item}>
-        {/* 👇 Картинка логотипу */}
-        <div className={css.logo}>
-          <Image
-            src="/images/notehub-logo.png" // 👈 шлях до картинки
-            alt="NoteHub Logo"
-            width={120}
-            height={120}
-          />
-        </div>
-
         <div className={css.header}>
           <h2>{note.title}</h2>
         </div>
         <p className={css.content}>{note.content}</p>
-        <p className={css.date}>{note.date}</p>
+        <p className={css.date}>
+          {note.updatedAt
+            ? `Updated: ${new Date(note.updatedAt).toLocaleString()}`
+            : `Created: ${new Date(note.createdAt).toLocaleString()}`}
+        </p>
+        <p className={css.tag}>
+          <strong>Tag:</strong> {note.tag}
+        </p>
       </div>
     </div>
   );
-}
+};
+
+export default NoteDetailsClient;

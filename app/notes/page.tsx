@@ -1,19 +1,19 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { fetchNotes } from '@/lib/api';
+import { QueryClient, HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import NotesClient from './Notes.client';
+import { fetchNotes } from '@/lib/api';
 
 export default async function NotesPage() {
   const queryClient = new QueryClient();
 
-  // Якщо хочеш передати пошуковий термін — заміни '' на реальний searchTerm
+  // Prefetch нотаток для першої сторінки без пошукового запиту
   await queryClient.prefetchQuery({
-    queryKey: ['notes', ''], // <-- другий елемент — це searchTerm
-    queryFn: ({ queryKey }) => fetchNotes({ search: queryKey[1] }),
+    queryKey: ['notes', 1, ''],
+    queryFn: () => fetchNotes(1, ''),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NotesClient />
+      <NotesClient initialPage={1} initialQuery="" />
     </HydrationBoundary>
   );
 }
