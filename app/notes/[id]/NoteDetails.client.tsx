@@ -9,7 +9,7 @@ interface NoteDetailsClientProps {
   noteId: string;
 }
 
-export default function NoteDetailsClient({ noteId }: NoteDetailsClientProps) {
+const NoteDetailsClient = ({ noteId }: NoteDetailsClientProps) => {
   const {
     data: note,
     isLoading,
@@ -41,4 +41,6 @@ export default function NoteDetailsClient({ noteId }: NoteDetailsClientProps) {
       </div>
     </div>
   );
-}
+};
+
+export default NoteDetailsClient;
