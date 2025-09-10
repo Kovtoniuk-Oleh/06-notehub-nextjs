@@ -1,26 +1,22 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchNoteById } from '@/lib/api';
 import { Note } from '@/types/note';
 import css from './details.module.css';
 
-const NoteDetailsClient = () => {
-  const { id } = useParams(); // беремо id з URL
+interface NoteDetailsClientProps {
+  noteId: string;
+}
 
-  // Перевіряємо, що id точно є рядком
-  if (!id || Array.isArray(id)) {
-    return <p>Invalid note ID</p>;
-  }
-
+export default function NoteDetailsClient({ noteId }: NoteDetailsClientProps) {
   const {
     data: note,
     isLoading,
     error,
   } = useQuery<Note, Error>({
-    queryKey: ['note', id],
-    queryFn: () => fetchNoteById(id), // тепер TS точно знає, що це string
+    queryKey: ['note', noteId],
+    queryFn: () => fetchNoteById(noteId),
     refetchOnMount: false,
   });
 
@@ -45,6 +41,4 @@ const NoteDetailsClient = () => {
       </div>
     </div>
   );
-};
-
-export default NoteDetailsClient;
+}
