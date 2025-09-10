@@ -10,7 +10,7 @@ export default async function NotePage({ params }: NotePageProps) {
   const { id } = params;
   const queryClient = new QueryClient();
 
-  // Prefetch даних нотатки
+  // Prefetch даних нотатки на сервері
   await queryClient.prefetchQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
@@ -18,7 +18,7 @@ export default async function NotePage({ params }: NotePageProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NoteDetailsClient noteId={id} /> {/* передаємо id як пропс */}
+      <NoteDetailsClient noteId={id} />
     </HydrationBoundary>
   );
 }
